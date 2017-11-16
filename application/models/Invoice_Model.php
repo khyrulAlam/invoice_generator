@@ -29,4 +29,9 @@ class Invoice_Model extends CI_Model
 		$this->db->where('invoice_id',$id);
         $this->db->update('invoice_data',$json);
 	}
+
+	public function last_row_count(){
+		$result = $this->db->count_all_results('invoice_data');
+		return $result;
+	}
 }

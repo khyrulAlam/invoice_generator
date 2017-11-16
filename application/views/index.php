@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="<?php echo base_url('css/flat-ui.min.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('css/main.css')?>">
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Bungee+Inline|Graduate|Iceland|PT+Mono|Righteous|Russo+One" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 </head>
-<body>
+<body onload="getTime()">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -40,10 +40,21 @@
                     <li><a href="<?php echo base_url('Invoice/bill_list')?>"><span class="fui-list-numbered"></span> List Of Bill</a></li>
                     <li><a href="<?php echo base_url('Invoice/make_bill')?>"><span class="fui-new"></span> Make A Bill</a></li>
                 </ul>
+
+
+                <div class="pull-right">
+                <?php $u_id = $this->session->userdata('user_id');
+                if($u_id != NULL) { ?>
+                <h5>
+                    <a href="<?php echo base_url('Invoice/logout')?>">
+                        <span class="fui-exit"></span> Logout
+                    </a>
+                </h5>
+                <?php } ?>
+                </div>
             </div><!-- /.navbar-collapse -->
         </div>
     </nav><!-- /navbar -->
-
 
 <main>
     <?php echo $master;?>
@@ -63,59 +74,31 @@
 <script src="<?php echo base_url('js/flat-ui.min.js')?>"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
-    <script type="text/javascript" src="//cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js"></script>
 <script src="<?php echo base_url('js/plugins.js')?>"></script>
 <script src="<?php echo base_url('js/main.js')?>"></script>
-
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='https://www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-</script>
+    function getTime()
+    {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        // add a zero in front of numbers<10
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('showtime').innerHTML = h + ":" + m + ":" + s;
+        t = setTimeout(function () {
+            getTime()
+        }, 500);
+    }
 
-<script type="text/javascript">
-    $('body').on('change', function(e) {
-        var nums = $('.nums'),
-            total = 0;
-        $(nums).each(function(index, el) {
-            total += $(el).val() * 1;
-        });
-        $('.gTotal').val( total);
-    });
-
-    $('body').on('keyup', '.unit, .qnt, .nums', function(){
-        var $row = $(this).closest("tr");
-        var hrs1 = parseFloat($('.unit', $row).val()) || 0;
-        var hrs2 = parseFloat($('.qnt', $row).val()) || 0;
-
-        var totalHrs = (hrs1 * hrs2);
-        $('.nums', $row).val(totalHrs);
-    });
-
-    $('#addMore').on('click',function (e) {
-        //console.log($("#rowss"));
-        $('tbody').append("<tr><td><input type='text' name='item[]' class='form-control'></td><td><input type='number' name='unit_price[]' class='form-control unit'></td><td><input type='number' name='quantity[]' class='form-control qnt'></td><td><input type='number' name='total[]' class='form-control nums'></td></tr>");
-    })
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#example').DataTable();
-    });
-</script>
-<script type="text/javascript">
-    function confirmClick() {
-        var chk = confirm('Are You Sure This Bill Is Paid?');
-        if (chk) {
-            return true;
-        } else {
-            return false;
+    function checkTime(i){
+        if (i < 10){
+            i = "0" + i;
         }
-
+        return i;
     }
 </script>
 </body>

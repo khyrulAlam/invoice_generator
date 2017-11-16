@@ -1,257 +1,295 @@
-<?php 
-//echo "<pre>";
-//print_r($bill);
-$data = json_decode($bill->invoice_data_json);
 
-?>
+		<style>
+        p{
+            margin:0;
+            padding:0;
+            font-family:Arial !important;
+            font-size:10pt;}
+        #wrapper{
+            width:180mm;
+            margin:0 auto;
+            padding:0;
+            font-family:Arial;
+            font-size:10pt;
+            color:#000;}
 
-<style type="text/css">
-	body{
-		background: #ECF0F1;
-	}
-	#content{
-		min-height: 942px;
-		border-bottom: 1px solid;
-		font-family: 'Russo One', sans-serif;
-	}
-	.pcontainer{
-			width:750px;
-			margin: 0px auto;
-			overflow: hidden;
-			position: relative;
-			padding: 0px 15px;
-		}
-		header .pcontainer{
-			padding: 14px 0px 0px;
-    		border-bottom: 1px solid #c5cbea;;
-    		margin-bottom: 10px;
-		}
+        .page{
+            height:297mm;
+            width:210mm;
+            page-break-after:always;}
 
-		h3,h2{
-			font-family: 'Bungee Inline', cursive;
-			color: #222483;
-			font-size: 20px;
-			margin: 0px;
-		}
-		h4{
-			margin: 0px;
-			font-size: 18px;
-		}
-		p{
-			margin: 0px;
-			font-size: 14px;
-		}
-		header p{
-			/*font-family: 'Graduate', cursive;*/
-			font-size: 14px;
-			font-family: 'Russo One', sans-serif;
-		}
-		.in-to{
-			border-left: 3px solid #9E9E9E;
-    		padding-left: 10px;
-		}
-		table{
-			margin-top: 40px;
-			/*font-family: 'Graduate', cursive;*/
-		}
-		thead{
-			background: #b5b6d4;
-		}
-		.min-table{
-			min-height: 575px;
-		}
-		hr{
-			border-top: 1px solid #c5cbea;
-		}
-		.bhead{
-			border-bottom: 1px solid #c5cbea;
-		    margin-bottom: 15px;
-		    padding-bottom: 10px;
-		}
-</style>
+        table{
+            /*border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;*/
+            border-spacing:0;
+            border-collapse: collapse;}
 
-	
-	<center>
-		<button class="btn btn-primary" id="cmd"><span class="fui-document"></span> GENERATE PDF</button>
-	</center>
-	<hr>
+        table td{
+            /*border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;*/
+            padding: 2mm;}
 
-	<div  id="content">
-		<div class="pcontainer bhead">
-			<div class="col-md-6">
-			<img src="<?php echo site_url()?>img/tech-Solution-logo.png">
-			</div>
-			<div class="col-md-4 col-md-offset-2">
-				<div class="row">
-					<p>404, Golam Rasul Plaza<br>
-					1st Floor, A-4<br>
-					Dilu Road, New Eskaton,Dhaka<br>
-					Phone: +8801926677540<br>
-					Email: info@ techsolutionsbd.com</p>
-				</div>
-			</div>
-		</div>
-		<div class="pcontainer">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="in-to">
-						<h3>Bill To: </h3>
-						<p><?= $data->bill_to?></p>
-						<p><?= $data->company_name?></p>
-						<p><?= $data->address?></p>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="text-right">
-						<div>
-							<h2>INVOICE NO: <?= $data->invoice_no?></h2>
-							<p>Date Of Invoice:  <?= $data->issue_date?></p>
-							<p>Due Date: <?= $data->due_date?></p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="pcontainer">
-			<div class="min-table">
-				<table class="table table-striped">
-					<thead>
+        table.heading{
+            /*height:50mm;*/
+            height:45mm;
+            text-transform: capitalize;}
+
+        h1.heading{
+            font-size:14pt;
+            color:#000;
+            font-weight:normal;}
+
+        h2.heading{
+            font-size:9pt;
+            color:#000;
+            font-weight:normal;}
+				h3,h1,h2{
+          font-size:12pt;
+					color:#000;
+					font-weight:normal;
+					font-family: Arial;}
+
+        hr{
+            color:#ccc;
+            background:#ccc;}
+
+        #invoice_body{
+            height: 137mm;}
+
+        #invoice_body , #invoice_total{
+            width:100%;}
+        #invoice_body table , #invoice_total table{
+            width:100%;
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            border-spacing:0;
+            border-collapse: collapse;
+            margin-top:5mm;}
+
+        #invoice_body table td , #invoice_total table td{
+            text-align:center;
+            font-size:8pt;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding:2mm 0;}
+
+        #invoice_body table td.mono  , #invoice_total table td.mono{
+            font-family:monospace;
+            text-align:right;
+            padding-right:3mm;
+            font-size:10pt;}
+
+        #footer{
+            width:180mm;
+            margin:0 15mm;
+            padding-bottom:3mm;}
+        #footer table{
+            width:100%;
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            background:#eee;
+            border-spacing:0;
+            border-collapse: collapse;}
+        #footer table td{
+            width:25%;
+            text-align:center;
+            font-size:8pt;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;}
+				.paid{
+					position: absolute;
+			    top: 45rem;
+			    left: 35rem;}
+					.invoicNo{
+						font-weight: 600;
+						font-family: serif;
+						background: #d8d8d8;
+						border-left: 1px solid #eee;
+						color: #b35635;
+						letter-spacing: 2px;
+					}
+					.footerInfo{
+						text-align: center;
+						border-top: 1px solid #eee;
+						font-size: 8pt;
+						font-family: monospace;
+						letter-spacing: -1px;
+						color: #6f6f6f;
+					}
+    </style>
+
+
+
+		<?php
+			$data = json_decode($bill->invoice_data_json);
+		?>
+		<center>
+			<a href="<?php echo base_url('Invoice/makeMpdf')?>/<?php echo $bill->invoice_id?>">
+				<button class="btn btn-primary"><span class="fui-document"></span> GENERATE PDF</button>
+			</a>
+		</center>
+			<div id="wrapper">
+				<div style="text-align:right; padding-top:5mm;">
+					<?php if($bill->company_id == 1){?>
+						<img src="<?php echo site_url()?>img/tech-world-logo.png" width="165">
+					<?php }elseif($bill->company_id == 2){?>
+						<img src="<?php echo site_url()?>img/tech-Solution-logo.png">
+					<?php }elseif($bill->company_id == 3){?>
+						<img src="<?php echo site_url()?>img/rallyround_logo.png">
+					<?php }?>
+		    </div>
+	    	<br />
+		    <table class="heading" style="width:100%;">
+		        <tr>
+		            <td>
+		                <h2>To</h2>
+		                <h2><?= $data->company_name?></h2>
+		                <p class="heading">
+											<?= $data->address->streetAddress?><br>
+											<?= $data->address->zipCode?>,
+											<?= $data->address->city?><br>
+											<?= $data->address->state?>,
+											<?= $data->address->country?>
+		                </p>
+		            </td>
+		            <td rowspan="2" valign="top" align="right">
+		                <table style="border: 0px solid #eee;">
+		                    <tr style="border-bottom:0px solid #eee">
+		                      <td style="background: #f1f1f1;font-family:sans-serif;">Invoice No: </td>
+		                      <td class="invoicNo"><?= $data->invoice_no?></td>
+		                    </tr>
+		                    <tr style="border-bottom:0px solid #eee">
+		                      <td>Date Of Invoice: </td>
+		                      <td><?= $data->issue_date?></td>
+		                    </tr>
+		                    <tr style="border-bottom:0px solid #eee">
+		                      <td>Due Date: </td>
+		                      <td><?= $data->due_date?></td></tr>
+		                </table>
+		            </td>
+		        </tr>
 						<tr>
-							<th>No</th>
-							<th>Items</th>
-							<th class="text-center">Unit Price</th>
-							<th class="text-center">Quantity</th>
-							<th class="text-center">Total</th>
+							<td colspan="5"></td>
 						</tr>
-					</thead>
-					<tbody>
-						<?php 
-		                    $no = (count($data->item )-1);
-		                    for($i=0; $i<= $no; $i++){
-		                ?>
-						<tr>
-							<td><p class="text-center">01</p></td>
-		                    <td><p class="text-center"><?= $data->item[$i] ?></p></td>
-		                    <td><p class="text-center"><?= $data->unit_price[$i]?></p></td>
-		                    <td><p class="text-center"><?= $data->quantity[$i]?></p></td>
-		                    <td><p class="text-center"><?= $data->total[$i]?></p></td>
+		        <tr>
+		            <td colspan="5" style="font-family:sans-serif">
+		                <h3 style="font-weight:600">Subject: <?= $data->bill_to?></h3>
+		            </td>
+		        </tr>
+		    </table>
+				<br>
+				<div id="content">
+
+		        <div id="invoice_body">
+		            <table>
+		              <tr style="background:#eee;">
+		                  <td style="width:8%;"><b>Sl.No</b></td>
+		                  <td><b>Description</b></td>
+		                  <td style="width:15%;"><b>Quantity</b></td>
+		                  <td style="width:15%;"><b>Unit Price</b></td>
+		                  <td style="width:15%;"><b>Total</b></td>
+		              </tr>
+		            </table>
+
+		            <table>
+		              <?php
+		                $no = (count($data->item )-1);
+		                for($i=0; $i<= $no; $i++){
+		              ?>
+		              <tr>
+		                  <td style="width:8%;"><?php echo $i+1?></td>
+		                  <td style="text-align:left; padding-left:10px;"><?= $data->item[$i] ?></td>
+		                  <td class="mono" style="width:15%;"><?= $data->quantity[$i]?></td>
+		                  <td style="width:15%;" class="mono"><?= $data->unit_price[$i]?></td>
+		                  <td style="width:15%;" class="mono"><?= $data->total[$i]?></td>
+		              </tr>
+		              <?php } ?>
+
+		              <tr>
+		                  <td colspan="3"></td>
+		                  <td></td>
+		                  <td></td>
+		              </tr>
+
+		              <tr>
+		                  <td colspan="3">
+		                  </td>
+		                  <td>Total :</td>
+		                  <td class="mono"><?= $data->Grand_Total?></td>
+		              </tr>
+		          </table>
+		          <table style="border:0px solid">
+		            <tr>
+		              <td colspan="5" style="border: none;text-align: left;font-weight: 600;font-size:15px;text-transform:capitalize">
+		                In Word (Taka): <span><?= $data->inword?></span> only
+		              </td>
+		            </tr>
+		          </table>
+		        </div>
+		        <div id="invoice_total">
+		            <table>
+		                <tr>
+		                    <td style="text-align:left; padding-left:10px;font-family: cursive;">
+		                      Please arrange to make the payment by cash or A/C payee cheque in favor of
+													<?php if($bill->company_id == 2){?>
+														"TechsolutionsBD"
+													<?php }else {?>
+														"The Monthly Techworld Bangladesh"
+													<?php }?>
+		            					As earliest. Thanks you cooperation and looking forward
+		            					to you patronization. <span style="color:red;">For any query, please call @ 01926677542,
+														<?php if($bill->company_id == 3){?>
+															01968740603
+														<?php }else {?>
+															01926677534
+														<?php }?>
+															</span>
+		                    </td>
 		                </tr>
-		                <?php } ?>
-					</tbody>
-					<tfoot>
-						<!-- <tr style="border-top: 3px solid #222483">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td class="text-center">SUBTOTAL</td>
-							<td class="text-center">43,000</td>
-						</tr>
-						<tr style="border-top: 3px solid #222483">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td class="text-center">TAX 15/%</td>
-							<td class="text-center">00.00</td>
-						</tr> -->
-						<tr style="border-top: 3px solid #222483">
-							<td></td>
-							<td></td>
-							<td colspan="2" class="text-center text-uppercase">Total Payable Amount: </td>
-							<td class="text-center"><?= $data->Grand_Total?></td>
-						</tr>
-					</tfoot>
-				</table>
-				<p style="font-size: 12px;">*NOTE: Excluding VAT & Tax</p>
-			</div>	
+		            </table>
+		        </div>
+		        <hr/>
+
+		        <table style="width:100%; height:38mm;">
+		            <tr>
+		                <td style="width:85%;" valign="bottom">
+												<?php if($bill->company_id == 3){?>
+													<img src="<?php echo site_url()?>img/yusuf-sig.png" height="60" style="padding-left:30px"><br />
+												<?php }else{ ?>
+		                    <img src="<?php echo site_url()?>img/sign.png" height="60" style="padding-left:30px"><br />
+												<?php } ?>
+		                    _________________________________<br/>
+												<?php if($bill->company_id == 3){?>
+												MD. Yusuf Chowdhury <br/>
+												Asst. Manager & Content & Business Development
+												<?php }else{ ?>
+												Sobail Ibn-e- Hamja <br/>
+		                    Accounts & Admin Department
+												<?php } ?>
+		                </td>
+		                <td valign="bottom">
+		                  <div id="box">
+		                    _________________________________<br/><br/>
+		                    <p style="text-align:center">Customer's Signature</p>
+		                  </div>
+		                </td>
+		            </tr>
+								<tr>
+									<td colspan="2" class="footerInfo">404, Golam Rasul Plaza, 1st Floor, A-4, Dilu Road, New Eskaton, Dhaka. Tel: +88 02 9355114 Email:
+										<?php if($bill->company_id == 2){?>
+											info@techsolutionsbd.com
+										<?php }else if($bill->company_id == 1) {?>
+											info.techworldbd@gmail.com
+										<?php }else if($bill->company_id == 3) {?>
+											pr@rallyroundbd.com
+										<?php }?>
+									</td>
+								</tr>
+		        </table>
+		    </div>
 		</div>
-		<div class="pcontainer">
-			<div class="row">
-				<hr>
-				<div class="col-md-8">
-					<h4>Ammatul Anam Luna</h4>
-					<img src="<?php echo site_url()?>img/sign.png" height="60">
-					<p><i>Accounts Department</i></p>
-				</div>
-				<div class="col-md-4">
-					<br>
-					<h3 class="text-center">Thank You</h3>
-				</div>
-			</div>
+		<?php if($bill->invoice_status== 1 ){?>
+		<div class="paid">
+			<img src="<?php echo site_url()?>img/paid.png" height="150">
 		</div>
-
-	</div> <!-- PDF Id Div -->
-
-	<div id="editor"></div>
-
-	<script type="text/javascript">
-			var form = $('#content'),
-		    cache_width = form.width(),
-		    a4 = [625, 990.89]; // for a4 size paper width and height
-
-		var canvasImage,
-		    winHeight = a4[1],
-		    formHeight = form.height(),
-		    formWidth  = form.width();
-
-		var imagePieces = [];
-
-		// on create pdf button click
-		$('#cmd').on('click', function() {
-		    $('body').scrollTop(0);
-		    imagePieces = [];
-		    imagePieces.length = 0;
-		    main();
-		});
-
-		// main code
-		function main() {
-		    getCanvas().then(function(canvas){
-		        canvasImage = new Image();
-		        canvasImage.src= canvas.toDataURL("image/png");
-		        canvasImage.onload = splitImage;
-		    });
-		}
-
-		// create canvas object
-		function getCanvas() {
-		    form.width((a4[0] * 1.33333) - 80).css('max-width', 'none');
-		    return html2canvas(form, {
-		        imageTimeout: 2000,
-		        removeContainer: true
-		    });
-		}
-
-		// chop image horizontally
-		function splitImage(e) {
-		    var totalImgs = Math.round(formHeight/winHeight);
-		    for(var i = 0; i < totalImgs; i++) {
-		        var canvas = document.createElement('canvas'),
-		            ctx = canvas.getContext('2d');
-		        canvas.width = formWidth;
-		        canvas.height = winHeight;
-		        //                    source region                   dest. region
-		        ctx.drawImage(canvasImage, 0, i * winHeight, formWidth, winHeight, 0, 0, canvas.width, canvas.height);
-
-		        imagePieces.push(canvas.toDataURL("image/png"));
-		    }
-		    console.log(imagePieces.length);
-		    createPDF();
-		}
-
-		// crete pdf using chopped images
-		function createPDF() {
-		    var totalPieces = imagePieces.length - 1;
-		    var doc = new jsPDF({
-		        unit: 'px',
-		        format: 'a4'
-		    });
-		    imagePieces.forEach(function(img){
-		        doc.addImage(img, 'JPEG', 20, 10);
-		        if(totalPieces)
-		            doc.addPage();
-		        totalPieces--;
-		    });
-		    doc.save('<?php echo $data->invoice_no?>_invoice.pdf');
-		    form.width(cache_width);
-		}
-	</script>
+		<?php } ?>

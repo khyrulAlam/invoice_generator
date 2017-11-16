@@ -6,7 +6,7 @@
               <?php echo $error; $this->session->unset_userdata('insert_error');?>
             </div>
         <?php }?> -->
-        <?php 
+        <?php
             $data = json_decode($bill->invoice_data_json);
         ?>
             <form action="<?php echo base_url('Invoice/bill_edit_info/'.base64_encode($bill->invoice_id))?>" method="post">
@@ -19,7 +19,12 @@
                         <input type="hidden" name="invoice_no" class="form-control" value="<?= $data->invoice_no?>">
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" name="address"><?= $data->address?></textarea>
+                        <label>Address</label>
+                        <input type="text" name="address[]" required class="form-control" value="<?= $data->address->streetAddress?>">
+                        <input type="text" name="address[]" required class="form-control" value="<?= $data->address->zipCode?>">
+                        <input type="text" name="address[]" required class="form-control" value="<?= $data->address->city?>">
+                        <input type="text" name="address[]" required class="form-control" value="<?= $data->address->state?>">
+                        <input type="text" name="address[]" required class="form-control" value="<?= $data->address->country?>">
                     </div>
                     <div class="form-group">
                         <label>Issue Date</label>
@@ -40,7 +45,7 @@
                         </thead>
                         <tbody>
 
-                            <?php 
+                            <?php
                                 $no = (count($data->item )-1);
                                 for($i=0; $i<= $no; $i++){
                             ?>
@@ -60,6 +65,7 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <input type="hidden" name="inword" class="inword" value="<?= $data->inword?>">
                 </div>
 
                 <button class="btn btn-block btn-primary" type="submit">Submit</button>

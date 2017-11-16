@@ -133,9 +133,95 @@ footer{
 }
 
 
+//PDF
+
+#content{
+    min-height: 942px;
+    border-bottom: 1px solid;
+    font-family: 'Russo One', sans-serif;
+    color: #000 !important;
+}
+.pcontainer{
+    width:750px;
+    margin: 0px auto;
+    overflow: hidden;
+    position: relative;
+    padding: 0px 15px;
+}
+header .pcontainer{
+    padding: 14px 0px 0px;
+    border-bottom: 1px solid #c5cbea;;
+    margin-bottom: 10px;
+}
+
+#content h3,h2{
+    font-family: 'Bungee Inline', cursive;
+    color: #222483;
+    font-size: 20px;
+    margin: 0px;
+}
+#content h4{
+    margin: 0px;
+    font-size: 18px;
+}
+#content p{
+    margin: 0px;
+    font-size: 14px;
+    font-family: 'Russo One', sans-serif;
+}
+#content header p{
+    /*font-family: 'Graduate', cursive;*/
+    font-size: 14px;
+    font-family: 'Russo One', sans-serif;
+}
+#content .in-to{
+    border-left: 3px solid #9E9E9E;
+    padding-left: 10px;
+}
+#content table{
+    margin-top: 25px;
+    /*font-family: 'Graduate', cursive;*/
+}
+#content thead{
+    background: #202382;
+    color: #FFF;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.min-table{
+    min-height: 575px;
+}
+#content hr{
+    border-top: 1px solid #c5cbea;
+}
+.bhead{
+    border-bottom: 0px solid #c5cbea;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+table{
+    background-color: #FFF;
+}
+.table>thead>tr>th{
+    border-bottom: 0px solid #ddd;
+}
+.paid{
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+}
 
 
+/*TIMER */
 
+#showtime {
+    width: 100%;
+    color: #fff;
+    font-size: 90px;
+    display: inline-block;
+    text-align: center;
+    font-weight: 400;
+}
 
 /* ==========================================================================
    Helper classes
