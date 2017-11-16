@@ -68,7 +68,6 @@
     </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>window.jQuery || document.write('<script src="<?php echo base_url('js/vendor/jquery-1.12.0.min.js')?>"><\/script>')</script>
 <script src="<?php echo base_url('js/bootstrap.min.js')?>"></script>
 <script src="<?php echo base_url('js/flat-ui.min.js')?>"></script>
